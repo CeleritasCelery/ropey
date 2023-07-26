@@ -478,7 +478,7 @@ impl<'a> Chars<'a> {
             self.byte_idx -= 1;
         }
         self.chars_remaining += 1;
-        return (&self.cur_chunk[self.byte_idx..]).chars().next();
+        return self.cur_chunk[self.byte_idx..].chars().next();
     }
 
     #[inline]
@@ -507,7 +507,7 @@ impl<'a> Chars<'a> {
             self.byte_idx += 1;
         }
         self.chars_remaining -= 1;
-        return (&self.cur_chunk[start..]).chars().next();
+        return self.cur_chunk[start..].chars().next();
     }
 }
 
@@ -1419,7 +1419,7 @@ impl<'a> Chunks<'a> {
                                 utf16_surrogates: 0, // Bogus value, not needed
                                 line_breaks: line_break_idx_range.1 as u64 - 1,
                             };
-                            (*node_stack.last_mut().unwrap()).1 += 1;
+                            node_stack.last_mut().unwrap().1 += 1;
                         }
                         break;
                     }

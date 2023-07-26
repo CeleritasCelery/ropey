@@ -166,6 +166,7 @@
 #![allow(clippy::needless_return)]
 #![allow(clippy::redundant_field_names)]
 #![allow(clippy::type_complexity)]
+#![allow(clippy::partialeq_to_none)]
 
 extern crate smallvec;
 extern crate str_indices;

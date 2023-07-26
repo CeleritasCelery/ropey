@@ -2021,7 +2021,7 @@ impl<'a> std::hash::Hash for RopeSlice<'a> {
                     // Append to the buffer.
                     let n = (BLOCK_SIZE - buffer_len).min(data.len());
                     let (head, tail) = data.split_at(n);
-                    (&mut buffer[buffer_len..(buffer_len + n)]).copy_from_slice(head);
+                    buffer[buffer_len..][..n].copy_from_slice(head);
                     buffer_len += n;
                     data = tail;
                 }

@@ -24,7 +24,7 @@ impl NodeChildren {
 
     /// Current length of the array.
     pub fn len(&self) -> usize {
-        self.0.len() as usize
+        self.0.len()
     }
 
     /// Returns whether the array is full or not.
@@ -393,7 +393,7 @@ impl NodeChildren {
         }
 
         debug_assert!(
-            char_idx <= (accum_char_idx + self.info()[idx].chars as usize) as usize,
+            char_idx <= (accum_char_idx + self.info()[idx].chars as usize),
             "Index out of bounds."
         );
 
@@ -713,15 +713,15 @@ mod inner {
             #[cfg(debug_assertions)]
             {
                 for (a, b) in Iterator::zip(
-                    (&clone_array.info[..clone_array.len()]).iter(),
-                    (&self.info[..self.len()]).iter(),
+                    clone_array.info[..clone_array.len()].iter(),
+                    self.info[..self.len()].iter(),
                 ) {
                     assert_eq!(unsafe { a.assume_init() }, unsafe { b.assume_init() },);
                 }
 
                 for (a, b) in Iterator::zip(
-                    (&clone_array.nodes[..clone_array.len()]).iter(),
-                    (&self.nodes[..clone_array.len()]).iter(),
+                    clone_array.nodes[..clone_array.len()].iter(),
+                    self.nodes[..clone_array.len()].iter(),
                 ) {
                     assert!(Arc::ptr_eq(unsafe { &*a.as_ptr() }, unsafe {
                         &*b.as_ptr()
