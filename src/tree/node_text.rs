@@ -2,11 +2,13 @@ use std::borrow::Borrow;
 use std::ops::Deref;
 use std::str;
 
+use get_size::GetSize;
+
 use crate::crlf;
 
 /// A custom small string.  The unsafe guts of this are in `NodeSmallString`
 /// further down in this file.
-#[derive(Clone, Default)]
+#[derive(Clone, Default, GetSize)]
 #[repr(C)]
 pub(crate) struct NodeText(inner::NodeSmallString);
 
@@ -232,11 +234,12 @@ pub(crate) fn fix_segment_seam(l: &mut NodeText, r: &mut NodeText) {
 /// NodeText via the safe APIs whenever possible.
 mod inner {
     use crate::tree::MAX_BYTES;
+    use get_size::GetSize;
     use smallvec::{Array, SmallVec};
     use std::str;
 
     /// The backing internal buffer type for `NodeText`.
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, GetSize)]
     struct BackingArray([u8; MAX_BYTES]);
 
     /// We need a very specific size of array, which is not necessarily
@@ -252,9 +255,10 @@ mod inner {
     }
 
     /// Internal small string for `NodeText`.
-    #[derive(Clone, Default)]
+    #[derive(Clone, Default, GetSize)]
     #[repr(C)]
     pub struct NodeSmallString {
+        #[get_size(size = 0)]
         buffer: SmallVec<BackingArray>,
     }
 

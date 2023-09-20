@@ -3,6 +3,8 @@ use std::iter::{Iterator, Zip};
 use std::slice;
 use std::sync::Arc;
 
+use get_size::GetSize;
+
 use crate::crlf;
 use crate::tree::{self, Node, TextInfo, MAX_BYTES};
 
@@ -15,6 +17,19 @@ const MAX_LEN: usize = tree::MAX_CHILDREN;
 #[derive(Clone)]
 #[repr(C)]
 pub(crate) struct NodeChildren(inner::NodeChildrenInternal);
+
+impl GetSize for NodeChildren {
+    fn get_heap_size(&self) -> usize {
+        let mut total = 0;
+        for node in self.nodes() {
+            total += node.get_heap_size();
+        }
+        for info in self.info() {
+            total += info.get_heap_size();
+        }
+        total
+    }
+}
 
 impl NodeChildren {
     /// Creates a new empty array.
@@ -494,6 +509,7 @@ impl fmt::Debug for NodeChildren {
 }
 
 //===========================================================================
+
 
 /// The unsafe guts of NodeChildren, exposed through a safe API.
 ///

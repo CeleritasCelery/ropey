@@ -1,5 +1,7 @@
 use std::sync::Arc;
 
+use get_size::GetSize;
+
 use crate::str_utils::{
     byte_to_char_idx, byte_to_line_idx, byte_to_utf16_surrogate_idx, char_to_byte_idx,
 };
@@ -8,7 +10,7 @@ use crate::tree::{
     Count, NodeChildren, NodeText, TextInfo, MAX_BYTES, MAX_CHILDREN, MIN_BYTES, MIN_CHILDREN,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, GetSize)]
 #[repr(u8, C)]
 pub(crate) enum Node {
     Leaf(NodeText),

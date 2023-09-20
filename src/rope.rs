@@ -13,6 +13,7 @@ use crate::str_utils::{
 };
 use crate::tree::{Count, Node, NodeChildren, TextInfo, MAX_BYTES, MIN_BYTES};
 use crate::{end_bound_to_num, start_bound_to_num, Error, Result};
+use get_size::GetSize;
 
 /// A utf8 text rope.
 ///
@@ -78,7 +79,7 @@ use crate::{end_bound_to_num, start_bound_to_num, Error, Result};
 /// The primary intended use-case for this feature is to allow asynchronous
 /// processing of `Rope`s.  For example, saving a large document to disk in a
 /// separate thread while the user continues to perform edits.
-#[derive(Clone)]
+#[derive(Clone, GetSize)]
 pub struct Rope {
     pub(crate) root: Arc<Node>,
 }
